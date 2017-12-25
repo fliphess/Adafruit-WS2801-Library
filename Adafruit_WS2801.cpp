@@ -216,15 +216,21 @@ void Adafruit_WS2801::show(void) {
 void Adafruit_WS2801::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b) {
   if(n < numLEDs) { // Arrays are 0-indexed, thus NOT '<='
     uint8_t *p = &pixels[n * 3];
+
     // See notes later regarding color order
     if(rgb_order == WS2801_RGB) {
       *p++ = r;
       *p++ = g;
+      *p++ = b;
+    } else if(rgb_order == WS2801_BGR) {
+      *p++ = b;
+      *p++ = g;
+      *p++ = r;
     } else {
       *p++ = g;
       *p++ = r;
+      *p++ = b;
     }
-    *p++ = b;
   }
 }
 
@@ -252,11 +258,18 @@ void Adafruit_WS2801::setPixelColor(uint16_t n, uint32_t c) {
     if(rgb_order == WS2801_RGB) {
       *p++ = c >> 16; // Red
       *p++ = c >>  8; // Green
+      *p++ = c;       // Blue
+
+    } else if(rgb_order == WS2801_BGR) {
+      *p++ = c;       // Blue
+      *p++ = c >>  8; // Green
+      *p++ = c >> 16; // Red
+
     } else {
       *p++ = c >>  8; // Green
       *p++ = c >> 16; // Red
+      *p++ = c;       // Blue
     }
-    *p++ = c;         // Blue
   }
 }
 

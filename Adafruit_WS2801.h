@@ -15,6 +15,7 @@
 // library will handle any required translation internally.
 #define WS2801_RGB 0
 #define WS2801_GRB 1
+#define WS2801_BGR 2
 
 class Adafruit_WS2801 {
 
